@@ -10,6 +10,9 @@ export class Soul {
      */
     youth = 360; // <= 0 ? death, pulse--
 
+    /**
+     * 
+     */
     resources = {
         cleanse: 0,
         energy: 0,
@@ -17,7 +20,20 @@ export class Soul {
         waste: 0
     };
 
+    /**
+     * 
+     */
     items = [];
+
+    /**
+     * items, other souls, environments
+     */
+    awareness = [];
+
+    /**
+     * 
+     */
+    connections = [];
 
     constructor(createdTime, name) {
         this.createdTime = createdTime;
@@ -48,9 +64,9 @@ export class Soul {
     }
 
     consume(index) {
-        if (this.items.length <= index) return false;
-
+        if (this.items.length <= index) throw { error: "invalid index passed in." };
         const item = this.items[index];
+
         const qty = item.composition.cleanse + item.composition.energy + item.composition.particles;
         this.resources.waste += qty;
         this.items.splice(index, 1);
@@ -65,5 +81,15 @@ export class Soul {
         }
 
         return true;
+    }
+
+    transfer(index, soul) {
+        if (this.items.length <= index) throw { error: "invalid index passed in." };
+        const item = this.items[index];
+
+        // console.log("Before item count: " + this.name + ": " + this.items.length + " " + soul.name + ": " + soul.items.length);
+        this.items.splice(index, 1);
+        soul.items.push(item);
+        // console.log("After item count: " + this.name + ": " + this.items.length + " " + soul.name + ": " + soul.items.length);
     }
 }

@@ -1,3 +1,4 @@
+import { Environment, EnvironmentType, Vacuum } from "./environment.js";
 import { Soul } from "./soul.js";
 
 class World {
@@ -10,8 +11,12 @@ class World {
 
     items = [];
     pulse = 0;
-
     souls = [];
+
+    environments = [
+        new Environment(EnvironmentType.Wild),
+        new Environment(EnvironmentType.Shelter)
+    ];
     history = [];
 
     constructor() {
@@ -112,14 +117,30 @@ class World {
             case 21:
                 adam = this.getSoul("adam");
                 eve = this.getSoul("eve");
-
-                if (!adam.consume(0)) {
-                    console.log("Failed to consume");
-                }
-
-                if (!eve.consume(0)) {
-                    console.log("Failed to consume");
-                }
+                adam.consume(0);
+                adam.makeFood();
+                adam.makeFood();
+                adam.makeFood();
+                adam.makeFood();
+                eve.makeFood();
+                eve.makeFood();
+                eve.makeFood();
+                eve.makeFood();
+                eve.makeFood();
+                break;
+            case 22:
+                adam = this.getSoul("adam");
+                eve = this.getSoul("eve");
+                eve.transfer(0, adam);
+                break;
+            case 31:
+                adam = this.getSoul("adam");
+                eve = this.getSoul("eve");
+                adam.transfer(0, eve);
+                eve.consume(0);
+                break;
+            case 41:
+                break;
             default:
                 break;
         }
